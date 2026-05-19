@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const express = require('express');
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -573,6 +574,18 @@ async function runMonitor(manual = false, manualChannel = null) {
 
 cron.schedule('*/1 * * * * ', async () => {
   await runMonitor(false);
+});
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Pokemon bot is running');
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Web server running on port ${PORT}`);
 });
 
 client.login(process.env.DISCORD_TOKEN);
